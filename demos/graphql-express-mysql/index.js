@@ -1,15 +1,18 @@
 const express = require('express');
 const { graphqlHTTP } = require('express-graphql');
-const { GraphQLSchema, GraphQLObjectType, GraphQLInt, GraphQLString } = require('graphql');
+const { GraphQLSchema, GraphQLObjectType, GraphQLInt, GraphQLString, GraphQLNonNull } = require('graphql');
 const mysql = require('mysql');
 const util = require('util');
 
+// 使用构建类型 根解析器是构建在 Query 和 Mutation 类型， 而不是 root 对象上的。
+// 从Query Mutation下直接出发
+
 const conn = mysql.createConnection({
-  // host: 'localhost',
-  // port: '3306',
-  // user: '#',
-  // password: '*',
-  // database: 'graphql'
+  host: 'localhost',
+  port: '3306',
+  user: '*',
+  password: '*',
+  database: 'graphql'
 })
 
 const query = util.promisify(conn.query).bind(conn);
@@ -36,6 +39,16 @@ const Query = new GraphQLObjectType({ // 定义查询所用的
         // return { id: id, name: 'mingge', sex: 'male', age: 22 }
         let res = await query(`select * from student where id=${id}`);
         return res[0];
+      }
+    },
+    // 构建类型下如何 书写非空？
+    teacher: {
+      type: new GraphQLNonNull(GraphQLString),
+      args: {
+        id: { type: new GraphQLNonNull(GraphQLInt) }
+      },
+      resolve(_, { id }) {
+        return null
       }
     }
   }
