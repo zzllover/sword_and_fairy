@@ -15,3 +15,7 @@
 ## WHERE
 
 对比 restful 和 graghql 
+
+## 使用type-graphql
+
+demo => graphql-typescript
