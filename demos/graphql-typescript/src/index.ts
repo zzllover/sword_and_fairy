@@ -1,4 +1,4 @@
-import { GraphQLServer } from "graphql-yoga";
+import { ApolloServer } from "apollo-server";
 import "reflect-metadata";
 import { buildSchema } from "type-graphql";
 import ProjectResolver from "./resolvers/ProjectResolver";
@@ -10,11 +10,12 @@ async function bootstrap() {
     emitSchemaFile: true,
   });
 
-  const server = new GraphQLServer({
+  const server = new ApolloServer({
     schema,
+    playground: true
   });
 
-  server.start(() => console.log("Server is running on http://localhost:4000"));
+  server.listen(4000);
 }
 
 bootstrap();
