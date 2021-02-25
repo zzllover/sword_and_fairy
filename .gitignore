@@ -6,6 +6,7 @@ yarn-error.log*
 
 dist
 build
+dist
 
 .DS_Store
 .env.local
